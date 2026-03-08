@@ -3,7 +3,7 @@ Common testing patterns for ansible roles.
 
 ## [Requirements](https://github.com/r-pufky/ansible_test/blob/main/meta/main.yml)
 **galaxy-ng** roles cannot be used independently. Part of
-[r_pufky.lib](https://github.com/r-pufky/ansible_collection_lib) collection.
+[r_pufky.data](https://github.com/r-pufky/ansible_collection_data) collection.
 
 ## Role Variables
 Variables are passed directly to the task being called.
@@ -37,7 +37,7 @@ converge.yml
 ``` yaml
 - name: 'role my_role fails when mutually exclusive assertion logic fails'
   ansible.builtin.include_role:
-    name: 'r_pufky.lib.test'
+    name: 'r_pufky.data.test'
     tasks_from: 'assertions.yml'
   vars:
     test_name: 'test mutually-exclusive gate'
@@ -60,7 +60,7 @@ prepare.yml
 ``` yaml
 - name: 'Cache balloon hashing'
   ansible.builtin.include_role:
-    name: 'r_pufky.lib.test'
+    name: 'r_pufky.data.test'
     tasks_from: 'cache_git.yml'
   vars:
     test_name: 'Cache balloon hashing'
@@ -83,7 +83,7 @@ prepare.yml
 ``` yaml
 - name: 'Cache fonts-test-font.ttf'
   ansible.builtin.include_role:
-    name: 'r_pufky.lib.test'
+    name: 'r_pufky.data.test'
     tasks_from: 'cache_url.yml'
   vars:
     test_name: 'Cache fonts-test-font.ttf'
@@ -105,7 +105,7 @@ prepare.yml
 ``` yaml
 - name: 'Prepare cache'
   ansible.builtin.include_role:
-    name: 'r_pufky.lib.test'
+    name: 'r_pufky.data.test'
     tasks_from: 'create_cache.yml'
   vars:
     test_name: 'Prepare cache'
@@ -125,7 +125,7 @@ verify.yml
 ``` yaml
 - name: 'Verify permissions'
   ansible.builtin.include_role:
-    name: 'r_pufky.lib.test'
+    name: 'r_pufky.data.test'
     tasks_from: 'file.yml'
   vars:
     test_name: '{{ "Verify permissions | " ~ item }}'
@@ -153,7 +153,7 @@ verify.yml
 ``` yaml
 - name: 'Verify cert.pem'
   ansible.builtin.include_role:
-    name: 'r_pufky.lib.test'
+    name: 'r_pufky.data.test'
     tasks_from: 'copy.yml'
   vars:
     test_name: 'Verify cert.pem'
@@ -178,7 +178,7 @@ verify.yml
 ``` yaml
 - name: 'Verify | assert postgres settings'
   ansible.builtin.include_role:
-    name: 'r_pufky.lib.test'
+    name: 'r_pufky.data.test'
     tasks_from: 'lineinfile.yml'
   vars:
     test_name: '{{ "Verify | assert postgres settings | " ~ item }}'
@@ -209,7 +209,7 @@ verify.yml
 ``` yaml
 - name: 'Verify | app.ini'
   ansible.builtin.include_role:
-    name: 'r_pufky.lib.test'
+    name: 'r_pufky.data.test'
     tasks_from: 'remote_file_diff.yml'
   vars:
     test_name: 'Verify | app.ini'
@@ -230,7 +230,7 @@ verify.yml
 ``` yaml
 - name: 'Verify sysctl'
   ansible.builtin.include_role:
-    name: 'r_pufky.lib.test'
+    name: 'r_pufky.data.test'
     tasks_from: 'sysctl.yml'
   vars:
     test_name: 'Verify sysctl'
@@ -248,7 +248,7 @@ verify.yml
 ``` yaml
     - name: 'Verify /etc/network/interfaces'
       ansible.builtin.include_role:
-        name: 'r_pufky.lib.test'
+        name: 'r_pufky.data.test'
         tasks_from: 'template.yml'
       vars:
         test_name: 'Verify /etc/network/interfaces'
@@ -267,7 +267,7 @@ verify.yml
 ```
 
 ## Development
-Configure [environment](https://r-pufky.github.io/ansible_collection_docs/ansible/environment)
+Configure [environment](https://r-pufky.github.io/ansible_docs/ansible/environment)
 
 Run all unit tests:
 ``` bash
@@ -279,7 +279,8 @@ molecule test --all
 
  Release | Debian | Ansible | Notes
 ---------|--------|---------|-------
- 3.x.x   | 13     | 2.20    | Ansible 2.20, semantic versioning.
+ 4.x.x   | 13     | 2.18+   | Migrate to r_pufky.data.
+ 3.x.x   | 13     | 2.18+   | Ansible 2.20, semantic versioning.
  2.x.x   | 13     | 2.18    | Migrate to Debian Trixie.
  1.x.x   | 12     | 2.18    | Ansible 2.18 support.
  0.x.x   | 12     | 2.11    | Initial commit.

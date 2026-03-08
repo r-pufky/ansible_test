@@ -24,7 +24,7 @@
       - test_repo | length > 0
     fail_msg: |
 
-      ✘ r_pufky.lib.test.cache_git requires:
+      ✘ r_pufky.data.test.cache_git requires:
 
       test_name: '{{ test_name }}'
       test_dest: '{{ test_dest }}'

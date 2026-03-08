@@ -29,7 +29,7 @@
       - test_mode | length > 0
     fail_msg: |
 
-      ✘ r_pufky.lib.test.remote_file_diff requires:
+      ✘ r_pufky.data.test.remote_file_diff requires:
 
       test_name: '{{ test_name }}'
       test_remote_src: '{{ test_remote_src }}'

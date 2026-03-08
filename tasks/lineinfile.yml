@@ -21,7 +21,7 @@
       - test_state | length > 0
     fail_msg: |
 
-      ✘ r_pufky.lib.test.lineinfile requires:
+      ✘ r_pufky.data.test.lineinfile requires:
 
       test_name: '{{ test_name }}'
       test_file: '{{ test_file }}'

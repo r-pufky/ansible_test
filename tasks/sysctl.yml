@@ -19,7 +19,7 @@
       - test_value | length > 0
     fail_msg: |
 
-      ✘ r_pufky.lib.test.copy requires:
+      ✘ r_pufky.data.test.copy requires:
 
       test_name: '{{ test_name }}'
       test_option: '{{ test_option }}'

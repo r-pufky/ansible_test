@@ -18,7 +18,7 @@
       - test_name | length > 0
     fail_msg: |
 
-      ✘ r_pufky.lib.test.create_cache requires:
+      ✘ r_pufky.data.test.create_cache requires:
 
       test_name: '{{ test_name }}'
 

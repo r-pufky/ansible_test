@@ -26,7 +26,7 @@
       - test_mode | length > 0
     fail_msg: |
 
-      ✘ r_pufky.lib.test.template requires:
+      ✘ r_pufky.data.test.template requires:
 
       test_name: '{{ test_name }}'
       test_src: '{{ test_src }}'
