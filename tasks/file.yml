@@ -13,7 +13,7 @@
 #   test_state: str - File state to test.
 #   test_diff: bool - Display file diff on failure? Default: False.
 
-- name: '{{ test_name }} | check requirements'  # noqa name[template]
+- name: '{{ test_name ~ " | check requirements" }}'
   ansible.builtin.assert:
     quiet: true
     that:
@@ -24,19 +24,17 @@
       - test_mode | length > 0
       - test_state | length > 0
     fail_msg: |
-      ╭───────────────────────────────────────────────────────────────────╮
-      │                                                                   │
-      │                        tests.file requires                        │
-      │                                                                   │
-      ├───────────────────────────────────────────────────────────────────╯
-      │ test_name: '{{ test_name }}'
-      │ test_file: '{{ test_file }}'
-      │ test_owner: '{{ test_owner }}'
-      │ test_group: '{{ test_group }}'
-      │ test_mode: '{{ test_mode }}'
-      │ test_state: '{{ test_state }}'
 
-- name: '{{ test_name }} | query'  # noqa name[template]
+      ✘ r_pufky.lib.test.file requires:
+
+      test_name: '{{ test_name }}'
+      test_file: '{{ test_file }}'
+      test_owner: '{{ test_owner }}'
+      test_group: '{{ test_group }}'
+      test_mode: '{{ test_mode }}'
+      test_state: '{{ test_state }}'
+
+- name: '{{ test_name ~ " | query" }}'
   ansible.builtin.file:
     path: '{{ test_file }}'
     owner: '{{ test_owner }}'
@@ -45,17 +43,14 @@
     state: '{{ test_state }}'
   check_mode: true
   diff: '{{ test_diff | default(false) }}'
-  register: _tests_result
+  register: test__result
 
-- name: '{{ test_name }} | assert'  # noqa name[template]
+- name: '{{ test_name ~ " | assert" }}'
   ansible.builtin.assert:
     quiet: true
     that:
-      - not _tests_result.changed
+      - not test__result.changed
     fail_msg: |
-      ╭───────────────────────────────────────────────────────────────────╮
-      │                                                                   │
-      │                           TEST FAILED.                            │
-      │                                                                   │
-      ├───────────────────────────────────────────────────────────────────╯
-      │ {{ test_file }} should exist with correct permissions.
+
+      ✘ TEST CASE FAILED
+      {{ test_file }} should exist with correct permissions.

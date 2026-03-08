@@ -11,25 +11,25 @@
 #   test_cache: str - local directory to create cache.
 #       Default: '{MOLECULE_PROJECT_DIRECTORY}/molecule/cache'.
 
-- name: '{{ test_name }} | check requirements'  # noqa name[template]
+- name: '{{ test_name ~ " | check requirements" }}'
   ansible.builtin.assert:
     quiet: true
     that:
       - test_name | length > 0
     fail_msg: |
-      ╭───────────────────────────────────────────────────────────────────╮
-      │                                                                   │
-      │                    tests.create_cache requires                    │
-      │                                                                   │
-      ├───────────────────────────────────────────────────────────────────╯
-      │ test_name: '{{ test_name }}'
 
-- name: '{{ test_name }} | create cache'  # noqa name[template]
+      ✘ r_pufky.lib.test.create_cache requires:
+
+      test_name: '{{ test_name }}'
+
+- name: '{{ test_name ~ " | create cache" }}'
   ansible.builtin.file:
     path: '{{
         test_cache |
-        default(lookup("env", "MOLECULE_PROJECT_DIRECTORY") ~
-                "/molecule/cache")
+        default(
+          lookup("env", "MOLECULE_PROJECT_DIRECTORY") ~
+          "/molecule/cache"
+        )
       }}'
     mode: '0755'
     state: 'directory'

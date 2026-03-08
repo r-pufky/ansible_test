@@ -14,7 +14,7 @@
 #   test_mode: str - File permissions (octal or permission string).
 #   test_diff: bool - Display file diff on failure? Default: False.
 
-- name: '{{ test_name }} | check requirements'  # noqa name[template]
+- name: '{{ test_name ~ " | check requirements" }}'
   ansible.builtin.assert:
     quiet: true
     that:
@@ -25,19 +25,17 @@
       - test_group | length > 0
       - test_mode | length > 0
     fail_msg: |
-      ╭───────────────────────────────────────────────────────────────────╮
-      │                                                                   │
-      │                        tests.copy requires                        │
-      │                                                                   │
-      ├───────────────────────────────────────────────────────────────────╯
-      │ test_name: '{{ test_name }}'
-      │ test_src: '{{ test_src }}'
-      │ test_file: '{{ test_file }}'
-      │ test_owner: '{{ test_owner }}'
-      │ test_group: '{{ test_group }}'
-      │ test_mode: '{{ test_mode }}'
 
-- name: '{{ test_name }} | query'  # noqa name[template]
+      ✘ r_pufky.lib.test.copy requires:
+
+      test_name: '{{ test_name }}'
+      test_src: '{{ test_src }}'
+      test_file: '{{ test_file }}'
+      test_owner: '{{ test_owner }}'
+      test_group: '{{ test_group }}'
+      test_mode: '{{ test_mode }}'
+
+- name: '{{ test_name ~ " | query" }}'
   ansible.builtin.copy:
     src: '{{ test_src }}'
     remote_src: '{{ test_remote_src | default(false) }}'
@@ -47,19 +45,16 @@
     mode: '{{ test_mode }}'
   check_mode: true
   diff: '{{ test_diff | default(false) }}'
-  register: _tests_result
+  register: test__result
 
-- name: '{{ test_name }} | assert'  # noqa name[template]
+- name: '{{ test_name ~ " | assert" }}'
   ansible.builtin.assert:
     quiet: true
     that:
-      - not _tests_result.changed
+      - not test__result.changed
     fail_msg: |
-      ╭───────────────────────────────────────────────────────────────────╮
-      │                                                                   │
-      │                           TEST FAILED.                            │
-      │                                                                   │
-      ├───────────────────────────────────────────────────────────────────╯
-      │ {{ test_file }} is not in expected format.
-      │
-      │ {{ _tests_result.diff if test_diff | default(false) else "" }}
+
+      ✘ TEST CASE FAILED
+      {{ test_file }} is not in expected format.
+
+      {{ test__result.diff if test_diff | default(false) else "" }}

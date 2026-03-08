@@ -12,7 +12,7 @@
 #   test_role: str - FQCN role to test assertions for.
 #   test_fail_message: str - message to display when test fails.
 
-- name: '{{ test_name }} | check requirements'  # noqa name[template]
+- name: '{{ test_name ~ " | check requirements" }}'
   ansible.builtin.assert:
     quiet: true
     that:
@@ -20,47 +20,37 @@
       - test_role | length > 0
       - test_fail_message | length > 0
     fail_msg: |
-      ╭───────────────────────────────────────────────────────────────────╮
-      │                                                                   │
-      │                     tests.assertions requires                     │
-      │                                                                   │
-      ├───────────────────────────────────────────────────────────────────╯
-      │ test_name: '{{ test_name }}'
-      │ test_role: '{{ test_role }}'
-      │ test_fail_message: '{{ test_fail_message }}'
+
+      ✘ r_pufky.lib.test.assertions requires:
+
+      test_name: '{{ test_name }}'
+      test_role: '{{ test_role }}'
+      test_fail_message: '{{ test_fail_message }}'
 
 - name: '{{ test_name }}'
   block:
-    - name: '{{ test_name }} | test setup'  # noqa name[template]
+    - name: '{{ test_name ~ " | test setup" }}'
       ansible.builtin.set_fact:
-        _tests_failed: true
+        test__failed: true
 
-    - name: '{{ test_name }} | EXPECTED FAILURE ⚠'  # noqa name[template]
+    - name: '{{ test_name ~ " EXPECTED FAILURE ⚠" }}'
       ansible.builtin.include_role:
         name: '{{ test_role }}'
 
   rescue:
-    - name: '{{ test_name }} | PASS ✔'  # noqa name[template]
+    - name: '{{ test_name ~ " PASS ✔" }}'
       ansible.builtin.set_fact:
-        _tests_failed: false
+        test__failed: false
 
-    - name: '{{ test_name }} | PASS ✔'  # noqa name[template]
+    - name: '{{ test_name ~ " PASS ✔" }}'
       ansible.builtin.debug:
-        msg: |
-          ╭───────────────────────────────────────────────────────────────────╮
-          │                                                                   │
-          │                           TEST PASSED.                            │
-          │                                                                   │
-          ╰───────────────────────────────────────────────────────────────────╯
+        msg: '✔ TEST CASE PASSED'
 
   always:
-    - name: '{{ test_name }} | FAIL ✘'  # noqa name[template]
-      when: _tests_failed
+    - name: '{{ test_name ~ " | FAIL ✘" }}'
+      when: test__failed
       ansible.builtin.fail:
         msg: |
-          ╭───────────────────────────────────────────────────────────────────╮
-          │                                                                   │
-          │                           TEST FAILED.                            │
-          │                                                                   │
-          ├───────────────────────────────────────────────────────────────────╯
-          │ {{ test_fail_message }}
+
+          ✘ TEST CASE FAILED
+          {{ test_fail_message }}

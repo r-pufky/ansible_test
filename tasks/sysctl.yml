@@ -10,7 +10,7 @@
 #   test_value: bool - sysctl expected option value.
 #   test_diff: bool - Display file diff on failure? Default: False.
 
-- name: '{{ test_name }} | check requirements'  # noqa name[template]
+- name: '{{ test_name ~ " | check requirements" }}'
   ansible.builtin.assert:
     quiet: true
     that:
@@ -18,35 +18,30 @@
       - test_option | length > 0
       - test_value | length > 0
     fail_msg: |
-      ╭───────────────────────────────────────────────────────────────────╮
-      │                                                                   │
-      │                        tests.copy requires                        │
-      │                                                                   │
-      ├───────────────────────────────────────────────────────────────────╯
-      │ test_name: '{{ test_name }}'
-      │ test_option: '{{ test_option }}'
-      │ test_value: '{{ test_value }}'
 
-- name: '{{ test_name }} | query'  # noqa name[template]
+      ✘ r_pufky.lib.test.copy requires:
+
+      test_name: '{{ test_name }}'
+      test_option: '{{ test_option }}'
+      test_value: '{{ test_value }}'
+
+- name: '{{ test_name ~ " | query" }}'
   ansible.builtin.command:
     argv:
       - 'sysctl'
       - '--values'
       - '{{ test_option }}'
-  register: _tests_result
+  register: test__result
   changed_when: false
 
-- name: '{{ test_name }} | assert'  # noqa name[template]
+- name: '{{ test_name ~ " | assert" }}'
   ansible.builtin.assert:
     quiet: true
     that:
-      - _tests_result.stdout == test_value
+      - test__result.stdout == test_value
     fail_msg: |
-      ╭───────────────────────────────────────────────────────────────────╮
-      │                                                                   │
-      │                           TEST FAILED.                            │
-      │                                                                   │
-      ├───────────────────────────────────────────────────────────────────╯
-      │ sysctl should report {{ test_option }}={{ test_value }}
-      │
-      │ {{ _tests_result.stdout if test_diff | default(false) else "" }}
+
+      ✘ TEST CASE FAILED
+      sysctl should report {{ test_option }}={{ test_value }}
+
+      {{ test__result.stdout if test_diff | default(false) else "" }}

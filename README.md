@@ -1,28 +1,25 @@
 # Extended testing framework
 Common testing patterns for ansible roles.
 
-## Requirements
-[supported platforms](https://github.com/r-pufky/ansible_tests/blob/main/meta/main.yml)
+## [Requirements](https://github.com/r-pufky/ansible_test/blob/main/meta/main.yml)
+**galaxy-ng** roles cannot be used independently. Part of
+[r_pufky.lib](https://github.com/r-pufky/ansible_collection_lib) collection.
 
 ## Role Variables
 Variables are passed directly to the task being called.
 
-[assertions](https://github.com/r-pufky/ansible_tests/tree/main/tasks/assertions.yml)
-[cache_git](https://github.com/r-pufky/ansible_tests/tree/main/tasks/cache_git.yml)
-[cache_url](https://github.com/r-pufky/ansible_tests/tree/main/tasks/cache_url.yml)
-[copy](https://github.com/r-pufky/ansible_tests/tree/main/tasks/copy.yml)
-[create_cache](https://github.com/r-pufky/ansible_tests/tree/main/tasks/create_cache.yml)
-[file](https://github.com/r-pufky/ansible_tests/tree/main/tasks/file.yml)
-[lineinfile](https://github.com/r-pufky/ansible_tests/tree/main/tasks/lineinfile.yml)
-[remote_file_diff](https://github.com/r-pufky/ansible_tests/tree/main/tasks/remote_file_diff.yml)
-[sysctl](https://github.com/r-pufky/ansible_tests/tree/main/tasks/sysctl.yml)
-[template](https://github.com/r-pufky/ansible_tests/tree/main/tasks/template.yml)
+[assertions](https://github.com/r-pufky/ansible_test/tree/main/tasks/assertions.yml)
+[cache_git](https://github.com/r-pufky/ansible_test/tree/main/tasks/cache_git.yml)
+[cache_url](https://github.com/r-pufky/ansible_test/tree/main/tasks/cache_url.yml)
+[copy](https://github.com/r-pufky/ansible_test/tree/main/tasks/copy.yml)
+[create_cache](https://github.com/r-pufky/ansible_test/tree/main/tasks/create_cache.yml)
+[file](https://github.com/r-pufky/ansible_test/tree/main/tasks/file.yml)
+[lineinfile](https://github.com/r-pufky/ansible_test/tree/main/tasks/lineinfile.yml)
+[remote_file_diff](https://github.com/r-pufky/ansible_test/tree/main/tasks/remote_file_diff.yml)
+[sysctl](https://github.com/r-pufky/ansible_test/tree/main/tasks/sysctl.yml)
+[template](https://github.com/r-pufky/ansible_test/tree/main/tasks/template.yml)
 
-## Dependencies
-**galaxy-ng** roles cannot be used independently. Part of
-[r_pufky.lib](https://github.com/r-pufky/ansible_collection_lib) collection.
-
-## Example Playbook
+## Usage
 Only use this role during Molecule testing and never for live roles. See each
 task for detailed argument list. Tasks must be explicitly called.
 
@@ -34,13 +31,13 @@ Verify assertion logic for roles are trigger correctly.
 Assertion tests must be called during the **coverage** step; otherwise failures
 will never allow Molecule to reach the verification step.
 
-[assertions](https://github.com/r-pufky/ansible_tests/tree/main/tasks/assertions.yml)
+[assertions](https://github.com/r-pufky/ansible_test/tree/main/tasks/assertions.yml)
 
 converge.yml
 ``` yaml
 - name: 'role my_role fails when mutually exclusive assertion logic fails'
   ansible.builtin.include_role:
-    name: 'r_pufky.lib.tests'
+    name: 'r_pufky.lib.test'
     tasks_from: 'assertions.yml'
   vars:
     test_name: 'test mutually-exclusive gate'
@@ -57,17 +54,18 @@ Download and cache a source-only git repository for dynamic testing.
 
 Downloads a GIT source asset locally.
 
-[cache_url](https://github.com/r-pufky/ansible_tests/tree/main/tasks/cache_git.yml)
+[cache_url](https://github.com/r-pufky/ansible_test/tree/main/tasks/cache_git.yml)
 
 prepare.yml
 ``` yaml
 - name: 'Cache balloon hashing'
   ansible.builtin.include_role:
-    name: 'r_pufky.lib.tests'
+    name: 'r_pufky.lib.test'
     tasks_from: 'cache_git.yml'
   vars:
     test_name: 'Cache balloon hashing'
-    test_cache: '{{ lookup("env", "MOLECULE_PROJECT_DIRECTORY") }}/molecule/cache'
+    test_cache:
+      '{{ lookup("env", "MOLECULE_PROJECT_DIRECTORY") ~ "/molecule/cache" }}'
     test_dest: 'balloon'
     test_repo: 'https://github.com/nachonavarro/balloon-hashing'
     test_retries: 5
@@ -79,17 +77,18 @@ Download and cache a remote file for dynamic testing.
 
 Downloads a remote URL asset cache location if it does not exist.
 
-[cache_url](https://github.com/r-pufky/ansible_tests/tree/main/tasks/cache_url.yml)
+[cache_url](https://github.com/r-pufky/ansible_test/tree/main/tasks/cache_url.yml)
 
 prepare.yml
 ``` yaml
 - name: 'Cache fonts-test-font.ttf'
   ansible.builtin.include_role:
-    name: 'r_pufky.lib.tests'
+    name: 'r_pufky.lib.test'
     tasks_from: 'cache_url.yml'
   vars:
     test_name: 'Cache fonts-test-font.ttf'
-    test_cache: '{{ lookup("env", "MOLECULE_PROJECT_DIRECTORY") }}/molecule/cache'
+    test_cache:
+      '{{ lookup("env", "MOLECULE_PROJECT_DIRECTORY") ~ "/molecule/cache" }}'
     test_dest: 'fonts-test-font.ttf'
     test_url: 'https://github.com/google/fonts/blob/main/ufl/ubuntu/Ubuntu-Regular.ttf'
     test_mode: '0644'
@@ -100,35 +99,36 @@ prepare.yml
 #### create_cache (create caching location)
 Create testing cache location for dynamic testing files.
 
-[create_cache](https://github.com/r-pufky/ansible_tests/tree/main/tasks/create_cache.yml)
+[create_cache](https://github.com/r-pufky/ansible_test/tree/main/tasks/create_cache.yml)
 
 prepare.yml
 ``` yaml
 - name: 'Prepare cache'
   ansible.builtin.include_role:
-    name: 'r_pufky.lib.tests'
+    name: 'r_pufky.lib.test'
     tasks_from: 'create_cache.yml'
   vars:
     test_name: 'Prepare cache'
-    test_cache: '{{ lookup("env", "MOLECULE_PROJECT_DIRECTORY") }}/molecule/cache'
+    test_cache:
+      '{{ lookup("env", "MOLECULE_PROJECT_DIRECTORY") ~ "/molecule/cache" }}'
 ```
 
 ### Test Frameworks
-Standardized interfaces for commong file/directory test with diff options.
+Standardized interfaces for common file/directory test with diff options.
 
 #### file (existence and permissions)
 Test file existence and permissions. May be applied to file **or** directories.
 
-[file](https://github.com/r-pufky/ansible_tests/tree/main/tasks/file.yml)
+[file](https://github.com/r-pufky/ansible_test/tree/main/tasks/file.yml)
 
 verify.yml
 ``` yaml
 - name: 'Verify permissions'
   ansible.builtin.include_role:
-    name: 'r_pufky.lib.tests'
+    name: 'r_pufky.lib.test'
     tasks_from: 'file.yml'
   vars:
-    test_name: 'Verify permissions | {{ item }}'
+    test_name: '{{ "Verify permissions | " ~ item }}'
     test_file: '{{ item }}'
     test_owner: '305'
     test_group: '305'
@@ -147,17 +147,20 @@ Static test file contents and permissions.
 Copies a known good testing file to remote system and validates target file is
 the same.
 
-[copy](https://github.com/r-pufky/ansible_tests/tree/main/tasks/copy.yml)
+[copy](https://github.com/r-pufky/ansible_test/tree/main/tasks/copy.yml)
 
 verify.yml
 ``` yaml
 - name: 'Verify cert.pem'
   ansible.builtin.include_role:
-    name: 'r_pufky.lib.tests'
+    name: 'r_pufky.lib.test'
     tasks_from: 'copy.yml'
   vars:
     test_name: 'Verify cert.pem'
-    test_src: '{{ lookup("env", "MOLECULE_PROJECT_DIRECTORY") }}/molecule/cache/cert.pem'
+    test_src: '{{
+        lookup("env", "MOLECULE_PROJECT_DIRECTORY") ~
+        "/molecule/cache/cert.pem"
+      }}'
     test_remote_src: false
     test_file: '/etc/mail/cert.pem'
     test_owner: 'mail'
@@ -169,16 +172,16 @@ verify.yml
 #### lineinfile (existence of line in file)
 Test existence of line in file.
 
-[lineinfile](https://github.com/r-pufky/ansible_tests/tree/main/tasks/lineinfile.yml)
+[lineinfile](https://github.com/r-pufky/ansible_test/tree/main/tasks/lineinfile.yml)
 
 verify.yml
 ``` yaml
 - name: 'Verify | assert postgres settings'
   ansible.builtin.include_role:
-    name: 'r_pufky.lib.tests'
+    name: 'r_pufky.lib.test'
     tasks_from: 'lineinfile.yml'
   vars:
-    test_name: 'Verify | assert postgres settings | {{ item }}'
+    test_name: '{{ "Verify | assert postgres settings | " ~ item }}'
     test_file: '/etc/forgejo/app.ini'
     test_line: '{{ item }}'
     test_state: 'present'
@@ -200,13 +203,13 @@ contents are the same. Both files must exist on the remote system (generally
 requiring the source of truth file to be rendered on the remote host in
 converge).
 
-[remote_file_diff](https://github.com/r-pufky/ansible_tests/tree/main/tasks/remote_file_diff.yml)
+[remote_file_diff](https://github.com/r-pufky/ansible_test/tree/main/tasks/remote_file_diff.yml)
 
 verify.yml
 ``` yaml
 - name: 'Verify | app.ini'
   ansible.builtin.include_role:
-    name: 'r_pufky.lib.tests'
+    name: 'r_pufky.lib.test'
     tasks_from: 'remote_file_diff.yml'
   vars:
     test_name: 'Verify | app.ini'
@@ -219,15 +222,15 @@ verify.yml
 ```
 
 ### sysctl (sysctl kernel option)
-test sysctl setting.
+Test sysctl settings.
 
-[sysctl](https://github.com/r-pufky/ansible_tests/tree/main/tasks/sysctl.yml)
+[sysctl](https://github.com/r-pufky/ansible_test/tree/main/tasks/sysctl.yml)
 
 verify.yml
 ``` yaml
 - name: 'Verify sysctl'
   ansible.builtin.include_role:
-    name: 'r_pufky.lib.tests'
+    name: 'r_pufky.lib.test'
     tasks_from: 'sysctl.yml'
   vars:
     test_name: 'Verify sysctl'
@@ -239,13 +242,13 @@ verify.yml
 #### template (remote template)
 Remote test file against template.
 
-[template](https://github.com/r-pufky/ansible_tests/tree/main/tasks/template.yml)
+[template](https://github.com/r-pufky/ansible_test/tree/main/tasks/template.yml)
 
 verify.yml
 ``` yaml
     - name: 'Verify /etc/network/interfaces'
       ansible.builtin.include_role:
-        name: 'r_pufky.lib.tests'
+        name: 'r_pufky.lib.test'
         tasks_from: 'template.yml'
       vars:
         test_name: 'Verify /etc/network/interfaces'
@@ -272,10 +275,14 @@ molecule test --all
 ```
 
 ### Releases
-Major release versions track Debian release versions:
+[Semantic versioning](https://semver.org/spec/v2.0.0).
 
-* **[13.x.x](https://github.com/r-pufky/ansible_tests)**: 13 Trixie.
-* **[12.x.x](https://github.com/r-pufky/ansible_tests/tree/12.x)**: 12 Bookworm.
+ Release | Debian | Ansible | Notes
+---------|--------|---------|-------
+ 3.x.x   | 13     | 2.20    | Ansible 2.20, semantic versioning.
+ 2.x.x   | 13     | 2.18    | Migrate to Debian Trixie.
+ 1.x.x   | 12     | 2.18    | Ansible 2.18 support.
+ 0.x.x   | 12     | 2.11    | Initial commit.
 
 ### Issues
 Create a bug and provide as much information as possible.
@@ -284,7 +291,7 @@ Associate pull requests with a submitted bug.
 
 ## License
 [AGPL-3.0 License](https://www.tldrlegal.com/license/gnu-affero-general-public-license-v3-agpl-3-0)
- [(direct link)](https://github.com/r-pufky/ansible_tests/blob/main/LICENSE)
+ [(direct link)](https://github.com/r-pufky/ansible_test/blob/main/LICENSE)
 
 ## Author Information
 PGP Fingerprint: [466EEC2B67516C7117C85CE3A0BC35D16698BAB9](https://keys.openpgp.org/vks/v1/by-fingerprint/466EEC2B67516C7117C85CE3A0BC35D16698BAB9)

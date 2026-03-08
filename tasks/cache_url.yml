@@ -17,7 +17,7 @@
 #   test_retries: int - Number of retries for failed URL. Default: 5.
 #   test_delay: int - Delay in second between retries. Default: 5.
 
-- name: '{{ test_name }} | check requirements'  # noqa name[template]
+- name: '{{ test_name ~ " | check requirements" }}'
   ansible.builtin.assert:
     quiet: true
     that:
@@ -25,33 +25,33 @@
       - test_dest | length > 0
       - test_url | length > 0
     fail_msg: |
-      ╭───────────────────────────────────────────────────────────────────╮
-      │                                                                   │
-      │                     tests.cache_url requires                      │
-      │                                                                   │
-      ├───────────────────────────────────────────────────────────────────╯
-      │ test_name: '{{ test_name }}'
-      │ test_dest: '{{ test_dest }}'
-      │ test_url: '{{ test_url }}'
 
-- name: '{{ test_name }} | check cache'  # noqa name[template]
+      ✘ r_pufky.lib.test.cache_url requires:
+
+      test_name: '{{ test_name }}'
+      test_dest: '{{ test_dest }}'
+      test_url: '{{ test_url }}'
+
+- name: '{{ test_name ~ " | check cache" }}'
   ansible.builtin.stat:
     path: '{{
         test_cache |
-        default(lookup("env", "MOLECULE_PROJECT_DIRECTORY") ~
-                "/molecule/cache")
-      }}/{{ test_dest }}'
-  register: _test_prepare
+        default(
+          lookup("env", "MOLECULE_PROJECT_DIRECTORY") ~
+          "/molecule/cache"
+        ) ~ "/" ~ test_dest }}'
+  register: test__prepare
 
-- name: '{{ test_name }} | cache {{ test_dest }}'  # noqa name[template]
-  when: not _test_prepare.stat.exists
+- name: '{{ test_name ~ " | cache " ~ test_dest }}'
+  when: not test__prepare.stat.exists
   ansible.builtin.get_url:
     url: '{{ test_url }}'
     dest: '{{
         test_cache |
-        default(lookup("env", "MOLECULE_PROJECT_DIRECTORY") ~
-                "/molecule/cache")
-      }}/{{ test_dest }}'
+        default(
+          lookup("env", "MOLECULE_PROJECT_DIRECTORY") ~
+          "/molecule/cache"
+        ) ~ "/" ~ test_dest }}'
     mode: '{{ test_mode | default("0644") }}'
   retries: '{{ test_retries | default(5) }}'
   delay: '{{ test_delay | default(5) }}'

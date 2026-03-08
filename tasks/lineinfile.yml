@@ -11,7 +11,7 @@
 #   test_state: str - Line state.
 #   test_diff: bool - Display file diff on failure? Default: False.
 
-- name: '{{ test_name }} | check requirements'  # noqa name[template]
+- name: '{{ test_name ~ " | check requirements" }}'
   ansible.builtin.assert:
     quiet: true
     that:
@@ -20,34 +20,29 @@
       - test_line | length > 0
       - test_state | length > 0
     fail_msg: |
-      ╭───────────────────────────────────────────────────────────────────╮
-      │                                                                   │
-      │                     tests.lineinfile requires                     │
-      │                                                                   │
-      ├───────────────────────────────────────────────────────────────────╯
-      │ test_name: '{{ test_name }}'
-      │ test_file: '{{ test_file }}'
-      │ test_line: '{{ test_line }}'
-      │ test_state: '{{ test_state }}'
 
-- name: '{{ test_name }} | query'  # noqa name[template]
+      ✘ r_pufky.lib.test.lineinfile requires:
+
+      test_name: '{{ test_name }}'
+      test_file: '{{ test_file }}'
+      test_line: '{{ test_line }}'
+      test_state: '{{ test_state }}'
+
+- name: '{{ test_name ~ " | query" }}'
   ansible.builtin.lineinfile:
     name: '{{ test_file }}'
     line: '{{ test_line }}'
     state: '{{ test_state }}'
   check_mode: true
   diff: '{{ test_diff | default(false) }}'
-  register: _tests_result
+  register: test__result
 
-- name: '{{ test_name }} | assert'  # noqa name[template]
+- name: '{{ test_name ~ " | assert" }}'
   ansible.builtin.assert:
     quiet: true
     that:
-      - not _tests_result.changed
+      - not test__result.changed
     fail_msg: |
-      ╭───────────────────────────────────────────────────────────────────╮
-      │                                                                   │
-      │                           TEST FAILED.                            │
-      │                                                                   │
-      ├───────────────────────────────────────────────────────────────────╯
-      │ {{ test_file }} is not in expected format.
+
+      ✘ TEST CASE FAILED
+      {{ test_file }} is not in expected format.
