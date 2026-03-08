@@ -8,16 +8,16 @@ Common testing patterns for ansible roles.
 ## Role Variables
 Variables are passed directly to the task being called.
 
-[assertions](https://github.com/r-pufky/ansible_test/tree/main/tasks/assertions.yml)
-[cache_git](https://github.com/r-pufky/ansible_test/tree/main/tasks/cache_git.yml)
-[cache_url](https://github.com/r-pufky/ansible_test/tree/main/tasks/cache_url.yml)
-[copy](https://github.com/r-pufky/ansible_test/tree/main/tasks/copy.yml)
-[create_cache](https://github.com/r-pufky/ansible_test/tree/main/tasks/create_cache.yml)
-[file](https://github.com/r-pufky/ansible_test/tree/main/tasks/file.yml)
-[lineinfile](https://github.com/r-pufky/ansible_test/tree/main/tasks/lineinfile.yml)
-[remote_file_diff](https://github.com/r-pufky/ansible_test/tree/main/tasks/remote_file_diff.yml)
-[sysctl](https://github.com/r-pufky/ansible_test/tree/main/tasks/sysctl.yml)
-[template](https://github.com/r-pufky/ansible_test/tree/main/tasks/template.yml)
+* [assertions](https://github.com/r-pufky/ansible_test/tree/main/tasks/assertions.yml)
+* [cache_git](https://github.com/r-pufky/ansible_test/tree/main/tasks/cache_git.yml)
+* [cache_url](https://github.com/r-pufky/ansible_test/tree/main/tasks/cache_url.yml)
+* [copy](https://github.com/r-pufky/ansible_test/tree/main/tasks/copy.yml)
+* [create_cache](https://github.com/r-pufky/ansible_test/tree/main/tasks/create_cache.yml)
+* [file](https://github.com/r-pufky/ansible_test/tree/main/tasks/file.yml)
+* [lineinfile](https://github.com/r-pufky/ansible_test/tree/main/tasks/lineinfile.yml)
+* [remote_file_diff](https://github.com/r-pufky/ansible_test/tree/main/tasks/remote_file_diff.yml)
+* [sysctl](https://github.com/r-pufky/ansible_test/tree/main/tasks/sysctl.yml)
+* [template](https://github.com/r-pufky/ansible_test/tree/main/tasks/template.yml)
 
 ## Usage
 Only use this role during Molecule testing and never for live roles. See each
