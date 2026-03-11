@@ -28,7 +28,7 @@
 - name: '{{ test_name ~ " | query" }}'
   ansible.builtin.command:
     argv:
-      - 'sysctl'
+      - '/sbin/sysctl'
       - '--values'
       - '{{ test_option }}'
   register: test__result
