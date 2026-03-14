@@ -1,23 +1,22 @@
 # Extended testing framework
 Common testing patterns for ansible roles.
 
-## [Requirements](https://github.com/r-pufky/ansible_test/blob/main/meta/main.yml)
-**galaxy-ng** roles cannot be used independently. Part of
-[r_pufky.data](https://github.com/r-pufky/ansible_collection_data) collection.
+## [Requirements][i]
+Requires [r_pufky.data][g] galaxy-ng collection.
 
 ## Role Variables
 Variables are passed directly to the task being called.
 
-* [assertions](https://github.com/r-pufky/ansible_test/blob/main/tasks/assertions.yml)
-* [cache_git](https://github.com/r-pufky/ansible_test/blob/main/tasks/cache_git.yml)
-* [cache_url](https://github.com/r-pufky/ansible_test/blob/main/tasks/cache_url.yml)
-* [copy](https://github.com/r-pufky/ansible_test/blob/main/tasks/copy.yml)
-* [create_cache](https://github.com/r-pufky/ansible_test/blob/main/tasks/create_cache.yml)
-* [file](https://github.com/r-pufky/ansible_test/blob/main/tasks/file.yml)
-* [lineinfile](https://github.com/r-pufky/ansible_test/blob/main/tasks/lineinfile.yml)
-* [remote_file_diff](https://github.com/r-pufky/ansible_test/blob/main/tasks/remote_file_diff.yml)
-* [sysctl](https://github.com/r-pufky/ansible_test/blob/main/tasks/sysctl.yml)
-* [template](https://github.com/r-pufky/ansible_test/blob/main/tasks/template.yml)
+* [assertions][j]
+* [cache_git][k]
+* [cache_url][l]
+* [copy][m]
+* [create_cache][n]
+* [file][o]
+* [lineinfile][p]
+* [remote_file_diff][q]
+* [sysctl][r]
+* [template][s]
 
 ## Usage
 Only use this role during Molecule testing and never for live roles. See each
@@ -31,7 +30,7 @@ Verify assertion logic for roles are trigger correctly.
 Assertion tests must be called during the **coverage** step; otherwise failures
 will never allow Molecule to reach the verification step.
 
-[assertions](https://github.com/r-pufky/ansible_test/blob/main/tasks/assertions.yml)
+[assertions][j]
 
 converge.yml
 ``` yaml
@@ -54,7 +53,7 @@ Download and cache a source-only git repository for dynamic testing.
 
 Downloads a GIT source asset locally.
 
-[cache_url](https://github.com/r-pufky/ansible_test/blob/main/tasks/cache_git.yml)
+[cache_git][k]
 
 prepare.yml
 ``` yaml
@@ -77,7 +76,7 @@ Download and cache a remote file for dynamic testing.
 
 Downloads a remote URL asset cache location if it does not exist.
 
-[cache_url](https://github.com/r-pufky/ansible_test/blob/main/tasks/cache_url.yml)
+[cache_url][l]
 
 prepare.yml
 ``` yaml
@@ -99,7 +98,7 @@ prepare.yml
 #### create_cache (create caching location)
 Create testing cache location for dynamic testing files.
 
-[create_cache](https://github.com/r-pufky/ansible_test/blob/main/tasks/create_cache.yml)
+[create_cache][n]
 
 prepare.yml
 ``` yaml
@@ -119,7 +118,7 @@ Standardized interfaces for common file/directory test with diff options.
 #### file (existence and permissions)
 Test file existence and permissions. May be applied to file **or** directories.
 
-[file](https://github.com/r-pufky/ansible_test/blob/main/tasks/file.yml)
+[file][o]
 
 verify.yml
 ``` yaml
@@ -147,7 +146,7 @@ Static test file contents and permissions.
 Copies a known good testing file to remote system and validates target file is
 the same.
 
-[copy](https://github.com/r-pufky/ansible_test/blob/main/tasks/copy.yml)
+[copy][m]
 
 verify.yml
 ``` yaml
@@ -172,7 +171,7 @@ verify.yml
 #### lineinfile (existence of line in file)
 Test existence of line in file.
 
-[lineinfile](https://github.com/r-pufky/ansible_test/blob/main/tasks/lineinfile.yml)
+[lineinfile][p]
 
 verify.yml
 ``` yaml
@@ -203,7 +202,7 @@ contents are the same. Both files must exist on the remote system (generally
 requiring the source of truth file to be rendered on the remote host in
 converge).
 
-[remote_file_diff](https://github.com/r-pufky/ansible_test/blob/main/tasks/remote_file_diff.yml)
+[remote_file_diff][q]
 
 verify.yml
 ``` yaml
@@ -224,7 +223,7 @@ verify.yml
 ### sysctl (sysctl kernel option)
 Test sysctl settings.
 
-[sysctl](https://github.com/r-pufky/ansible_test/blob/main/tasks/sysctl.yml)
+[sysctl][r]
 
 verify.yml
 ``` yaml
@@ -242,7 +241,7 @@ verify.yml
 #### template (remote template)
 Remote test file against template.
 
-[template](https://github.com/r-pufky/ansible_test/blob/main/tasks/template.yml)
+[template][s]
 
 verify.yml
 ``` yaml
@@ -267,20 +266,19 @@ verify.yml
 ```
 
 ## Development
-Configure [environment](https://r-pufky.github.io/ansible_docs/ansible/environment)
+Configure [environment][a].
 
-Run all unit tests:
 ``` bash
+# Run all tests.
 molecule test --all
 ```
 
-### Releases
-[Semantic versioning](https://semver.org/spec/v2.0.0).
+### [Releases][b]
 
  Release | Debian | Ansible | Notes
 ---------|--------|---------|-------
- 4.x.x   | 13     | 2.18+   | Migrate to r_pufky.data.
- 3.x.x   | 13     | 2.18+   | Ansible 2.20, semantic versioning.
+ 4.x.x   | 13     | 2.20    | Migrate to r_pufky.data.
+ 3.x.x   | 13     | 2.20    | Ansible 2.20, semantic versioning.
  2.x.x   | 13     | 2.18    | Migrate to Debian Trixie.
  1.x.x   | 12     | 2.18    | Ansible 2.18 support.
  0.x.x   | 12     | 2.11    | Initial commit.
@@ -291,9 +289,28 @@ Create a bug and provide as much information as possible.
 Associate pull requests with a submitted bug.
 
 ## License
-[AGPL-3.0 License](https://www.tldrlegal.com/license/gnu-affero-general-public-license-v3-agpl-3-0)
- [(direct link)](https://github.com/r-pufky/ansible_test/blob/main/LICENSE)
+[AGPL-3.0 License][c] | [direct link][f]
 
 ## Author Information
-PGP Fingerprint: [466EEC2B67516C7117C85CE3A0BC35D16698BAB9](https://keys.openpgp.org/vks/v1/by-fingerprint/466EEC2B67516C7117C85CE3A0BC35D16698BAB9)
-| [github gist](https://gist.github.com/r-pufky/a8df36977c55b5bb20829267c4c49d22)
+PGP: [466EEC2B67516C7117C85CE3A0BC35D16698BAB9][d] | [github gist][e]
+
+
+[a]: https://r-pufky.github.io/ansible_docs
+[b]: https://semver.org/spec/v2.0.0
+[c]: https://www.tldrlegal.com/license/gnu-affero-general-public-license-v3-agpl-3-0
+[d]: https://keys.openpgp.org/vks/v1/by-fingerprint/466EEC2B67516C7117C85CE3A0BC35D16698BAB9
+[e]: https://gist.github.com/r-pufky/a8df36977c55b5bb20829267c4c49d22
+
+[f]: https://github.com/r-pufky/ansible_wireguard/blob/main/LICENSE
+[g]: https://github.com/r-pufky/ansible_collection_data
+[i]: https://github.com/r-pufky/ansible_wireguard/blob/main/meta/main.yml
+[j]: https://github.com/r-pufky/ansible_test/blob/main/tasks/assertions.yml
+[k]: https://github.com/r-pufky/ansible_test/blob/main/tasks/cache_git.yml
+[l]: https://github.com/r-pufky/ansible_test/blob/main/tasks/cache_url.yml
+[m]: https://github.com/r-pufky/ansible_test/blob/main/tasks/copy.yml
+[n]: https://github.com/r-pufky/ansible_test/blob/main/tasks/create_cache.yml
+[o]: https://github.com/r-pufky/ansible_test/blob/main/tasks/file.yml
+[p]: https://github.com/r-pufky/ansible_test/blob/main/tasks/lineinfile.yml
+[q]: https://github.com/r-pufky/ansible_test/blob/main/tasks/remote_file_diff.yml
+[r]: https://github.com/r-pufky/ansible_test/blob/main/tasks/sysctl.yml
+[s]: https://github.com/r-pufky/ansible_test/blob/main/tasks/template.yml
