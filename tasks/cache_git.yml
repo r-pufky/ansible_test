@@ -37,7 +37,7 @@
         default(
           lookup("env", "MOLECULE_PROJECT_DIRECTORY") ~
           "/molecule/cache"
-        ) ~ "/" test_dest
+        ) ~ "/" ~ test_dest
       }}'
   register: test__prepare
 

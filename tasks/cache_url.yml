@@ -39,7 +39,8 @@
         default(
           lookup("env", "MOLECULE_PROJECT_DIRECTORY") ~
           "/molecule/cache"
-        ) ~ "/" ~ test_dest }}'
+        ) ~ "/" ~ test_dest
+      }}'
   register: test__prepare
 
 - name: '{{ test_name ~ " | cache " ~ test_dest }}'
@@ -51,7 +52,8 @@
         default(
           lookup("env", "MOLECULE_PROJECT_DIRECTORY") ~
           "/molecule/cache"
-        ) ~ "/" ~ test_dest }}'
+        ) ~ "/" ~ test_dest
+      }}'
     mode: '{{ test_mode | default("0644") }}'
   retries: '{{ test_retries | default(5) }}'
   delay: '{{ test_delay | default(5) }}'
