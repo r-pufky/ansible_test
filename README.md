@@ -301,9 +301,9 @@ PGP: [466EEC2B67516C7117C85CE3A0BC35D16698BAB9][d] | [github gist][e]
 [d]: https://keys.openpgp.org/vks/v1/by-fingerprint/466EEC2B67516C7117C85CE3A0BC35D16698BAB9
 [e]: https://gist.github.com/r-pufky/a8df36977c55b5bb20829267c4c49d22
 
-[f]: https://github.com/r-pufky/ansible_wireguard/blob/main/LICENSE
+[f]: https://github.com/r-pufky/ansible_test/blob/main/LICENSE
 [g]: https://github.com/r-pufky/ansible_collection_data
-[i]: https://github.com/r-pufky/ansible_wireguard/blob/main/meta/main.yml
+[i]: https://github.com/r-pufky/ansible_test/blob/main/meta/main.yml
 [j]: https://github.com/r-pufky/ansible_test/blob/main/tasks/assertions.yml
 [k]: https://github.com/r-pufky/ansible_test/blob/main/tasks/cache_git.yml
 [l]: https://github.com/r-pufky/ansible_test/blob/main/tasks/cache_url.yml

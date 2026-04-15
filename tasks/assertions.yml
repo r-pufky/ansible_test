@@ -33,7 +33,7 @@
       ansible.builtin.set_fact:
         test__failed: true
 
-    - name: '{{ test_name ~ " EXPECTED FAILURE ⚠" }}'
+    - name: '{{ test_name ~ " 🛆 EXPECTED FAILURE 🛆" }}'
       ansible.builtin.include_role:
         name: '{{ test_role }}'
 
